@@ -1,0 +1,19 @@
+{
+    "name": "vocabulary-to-anki",
+    "version": "1.0.0",
+    "description": "",
+    "main": "index.js",
+    "scripts": {
+        "start": "node dist/index.js",
+        "build": "tsc -p tsconfig.json",
+        "dev": "ts-node src/index.ts"
+    },
+    "dependencies": {
+        "@notionhq/client": "^1.0.4",
+        "@types/node": "^17.0.24",
+        "ts-node": "^10.7.0",
+        "typescript": "^4.6.3",
+        "xmlhttprequest": "^1.8.0",
+        "xmlhttprequest-ts": "^1.0.1"
+    }
+}
