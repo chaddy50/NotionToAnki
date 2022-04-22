@@ -8,24 +8,18 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
         step((generator = generator.apply(thisArg, _arguments || [])).next());
     });
 };
-var __importDefault = (this && this.__importDefault) || function (mod) {
-    return (mod && mod.__esModule) ? mod : { "default": mod };
-};
 Object.defineProperty(exports, "__esModule", { value: true });
-const notion_1 = require("./interfaces/notion");
-const notionPage_1 = __importDefault(require("./objects/notionPage"));
-function createVocabularyCardsFromDatabase() {
+exports.getVocabularyDatabase = void 0;
+const client_1 = require("@notionhq/client");
+const NOTION_KEY = "secret_aIE8wehUXTB6HNSgT0JAa2k65yp8Y7iDMqes7N0z8wu";
+const VOCABULARY_ID = "9ab74f2d0f504a1f915601ef54fd4c0f";
+const notion = new client_1.Client({ auth: NOTION_KEY });
+function getVocabularyDatabase() {
     return __awaiter(this, void 0, void 0, function* () {
-        const database = yield (0, notion_1.getVocabularyDatabase)();
-        database.results.forEach((pageObject) => __awaiter(this, void 0, void 0, function* () {
-            const page = new notionPage_1.default(pageObject);
-            // if (page.shouldCreateHiraganaCard()) {
-            //     page.createHiraganaCard();
-            // }
-            if (page.shouldCreateSpanishCard()) {
-                page.createSpanishCard();
-            }
-        }));
+        const vocabularyDatabase = yield notion.databases.query({
+            database_id: VOCABULARY_ID,
+        });
+        return vocabularyDatabase;
     });
 }
-createVocabularyCardsFromDatabase();
+exports.getVocabularyDatabase = getVocabularyDatabase;
