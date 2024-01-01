@@ -1,4 +1,4 @@
-import Anki from '../interfaces/anki';
+import Anki from '../integrations/Anki';
 import { GetValueFromProperty } from './NotionDatabaseObjectProperty';
 
 //#region Constants

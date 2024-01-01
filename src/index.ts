@@ -1,4 +1,4 @@
-import Notion from './interfaces/notion';
+import Notion from './integrations/Notion';
 import NotionDatabaseObject from './objects/NotionDatabaseObject';
 
 async function createVocabularyCardsFromDatabase(): Promise<void>
