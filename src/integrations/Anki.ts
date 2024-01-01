@@ -4,7 +4,7 @@ const ANKI_VERSION = 6;
 export default class Anki
 {
 	public static async CreateNewVocabularyCard(
-		deck: any,
+		deck: string,
 		front: string | undefined,
 		back: string | undefined
 	): Promise<void>
@@ -26,7 +26,7 @@ export default class Anki
 		await this.executeAnkiAction('addNote', params);
 	}
 
-	private static async executeAnkiAction(action: string, params: any)
+	private static async executeAnkiAction(action: string, params = {})
 	{
 		const xhr = new XMLHttpRequest();
 		xhr.addEventListener('error', () =>
@@ -59,7 +59,7 @@ export default class Anki
 				}
 			} catch (e)
 			{
-				console.log(params.note.fields.Front + ': ' + e);
+				//console.log(params.note.fields.Front + ': ' + e);
 				if (e != 'cannot create note because it is a duplicate')
 				{
 					Promise.reject(e);

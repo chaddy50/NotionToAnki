@@ -1,5 +1,5 @@
 import Anki from '../integrations/Anki';
-import { GetValueFromProperty } from './NotionDatabaseObjectProperty';
+import NotionDatabaseObjectProperty, { GetValueFromProperty } from './NotionDatabaseObjectProperty';
 
 //#region Constants
 const SPANISH_DECK = 'TestSpanish';
@@ -9,7 +9,7 @@ const JAPANESE_DECK = 'TestJapanese';
 export default class NotionDatabaseObject
 {
 	//#region Private Properties
-	private _object!: any;
+	private _object!: RawNotionDatabaseObject;
 	//#endregion
 
 	//#region Constructors
@@ -77,7 +77,7 @@ export default class NotionDatabaseObject
 		);
 	}
 
-	private getDeck(topDeck: string)
+	private getDeck(topDeck: string): string
 	{
 		return topDeck + this.getSubdeck();
 	}
@@ -106,4 +106,19 @@ export default class NotionDatabaseObject
 		}
 	}
 	//#endregion
+}
+
+export interface RawNotionDatabaseObject
+{
+	properties: {
+		Book: NotionDatabaseObjectProperty,
+		Kana: NotionDatabaseObjectProperty,
+		Katakana: NotionDatabaseObjectProperty,
+		Language: NotionDatabaseObjectProperty,
+		"Part of Speech": NotionDatabaseObjectProperty,
+		Chapter: NotionDatabaseObjectProperty,
+		Spanish: NotionDatabaseObjectProperty,
+		Kanji: NotionDatabaseObjectProperty,
+		English: NotionDatabaseObjectProperty,
+	};
 }
