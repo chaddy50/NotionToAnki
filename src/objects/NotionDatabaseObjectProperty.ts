@@ -1,10 +1,23 @@
+
 export default interface NotionDatabaseObjectProperty
 {
     id: string;
     name: string;
     type: PropertyType;
+}
+
+interface TitleProperty extends NotionDatabaseObjectProperty
+{
     title: [{ plain_text: string }];
+}
+
+interface RichTextProperty extends NotionDatabaseObjectProperty
+{
     rich_text: [{ plain_text: string }];
+}
+
+interface SelectProperty extends NotionDatabaseObjectProperty
+{
     select: { name: string }
 }
 
@@ -37,11 +50,11 @@ export function GetValueFromProperty(property: NotionDatabaseObjectProperty): st
     switch (property.type)
     {
         case PropertyType.Title:
-            return property.title[0].plain_text;
+            return (property as TitleProperty).title[0]?.plain_text;
         case PropertyType.RichText:
-            return property.rich_text[0].plain_text;
+            return (property as RichTextProperty).rich_text[0]?.plain_text;
         case PropertyType.Select:
-            return property.select.name;
+            return (property as SelectProperty).select?.name;
         default:
             return "";
     }

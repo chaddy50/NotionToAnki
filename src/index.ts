@@ -9,7 +9,6 @@ async function createVocabularyCardsFromDatabase(): Promise<void>
 	{
 		const notionDatabaseObject = new NotionDatabaseObject(_object);
 		notionDatabaseObject.CreateCards();
-		console.log(notionDatabaseObject.english);
 	});
 }
 
