@@ -1,12 +1,15 @@
 import Notion from './interfaces/notion';
-import NotionPage from './objects/notionPage';
+import NotionDatabaseObject from './objects/NotionDatabaseObject';
 
-async function createVocabularyCardsFromDatabase() {
+async function createVocabularyCardsFromDatabase(): Promise<void>
+{
 	const database = await Notion.GetVocabularyDatabase();
 
-	database.results.forEach(async (pageObject) => {
-		const page = new NotionPage(pageObject);
-		page.CreateCards();
+	database.results.forEach(async (_object) =>
+	{
+		const notionDatabaseObject = new NotionDatabaseObject(_object);
+		notionDatabaseObject.CreateCards();
+		console.log(notionDatabaseObject.english);
 	});
 }
 
