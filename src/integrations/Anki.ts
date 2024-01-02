@@ -1,4 +1,3 @@
-import { XMLHttpRequest } from 'xmlhttprequest-ts';
 const ANKI_VERSION = 6;
 
 export default class Anki
@@ -26,50 +25,39 @@ export default class Anki
 		await this.executeAnkiAction('addNote', params);
 	}
 
-	private static async executeAnkiAction(action: string, params = {})
+	private static async executeAnkiAction(action: string, params = {}): Promise<void>
 	{
-		const xhr = new XMLHttpRequest();
-		xhr.addEventListener('error', () =>
-			Promise.reject('failed to issue request')
-		);
-		xhr.addEventListener('load', () =>
+		try
 		{
-			try
+			const response = await fetch("http://127.0.0.1:8765", {
+				method: "POST",
+				headers: {
+					"Content-Type": "application/json"
+				},
+				body: JSON.stringify({ action, version: ANKI_VERSION, params }),
+			});
+
+			const result = JSON.parse(await response.text());
+			if (Object.getOwnPropertyNames(result).length != 2)
 			{
-				const response = JSON.parse(xhr.responseText);
-				if (typeof response == 'object')
-				{
-					if (Object.getOwnPropertyNames(response).length != 2)
-					{
-						throw 'response has an unexpected number of fields';
-					}
-					if (!response.hasOwnProperty('error'))
-					{
-						throw 'response is missing required error field';
-					}
-					if (!response.hasOwnProperty('result'))
-					{
-						throw 'response is missing required result field';
-					}
-					if (response.error)
-					{
-						throw response.error;
-					}
-					Promise.resolve(response.result);
-				}
-			} catch (e)
-			{
-				//console.log(params.note.fields.Front + ': ' + e);
-				if (e != 'cannot create note because it is a duplicate')
-				{
-					Promise.reject(e);
-				} else
-				{
-					Promise.resolve(e);
-				}
+				throw 'response has an unexpected number of fields';
 			}
-		});
-		xhr.open('POST', 'http://127.0.0.1:8765');
-		xhr.send(JSON.stringify({ action, ANKI_VERSION, params }));
+			if (!result.hasOwnProperty('error'))
+			{
+				throw 'response is missing required error field';
+			}
+			if (!result.hasOwnProperty('result'))
+			{
+				throw 'response is missing required result field';
+			}
+			if (result.error)
+			{
+				throw result.error;
+			}
+		}
+		catch (e)
+		{
+			console.error(e);
+		}
 	}
 }
