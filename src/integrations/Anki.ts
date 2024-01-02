@@ -25,7 +25,7 @@ export default class Anki
 		await this.executeAnkiAction('addNote', params);
 	}
 
-	private static async executeAnkiAction(action: string, params = {}): Promise<void>
+	private static async executeAnkiAction(action: string, params: any): Promise<void>
 	{
 		try
 		{
@@ -36,7 +36,6 @@ export default class Anki
 				},
 				body: JSON.stringify({ action, version: ANKI_VERSION, params }),
 			});
-
 			const result = JSON.parse(await response.text());
 			if (Object.getOwnPropertyNames(result).length != 2)
 			{
@@ -52,7 +51,7 @@ export default class Anki
 			}
 			if (result.error)
 			{
-				throw result.error;
+				throw result.error + ": \"" + params.note.fields.Front + "\"";
 			}
 		}
 		catch (e)
