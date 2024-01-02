@@ -70,7 +70,7 @@ export default class NotionDatabaseObject
 
 	private async createKanaCard(): Promise<void>
 	{
-		Anki.CreateNewVocabularyCard(
+		await Anki.CreateNewVocabularyCard(
 			this.getDeck(JAPANESE_DECK),
 			this.english,
 			this.kana

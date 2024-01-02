@@ -5,11 +5,11 @@ async function createVocabularyCardsFromDatabase(): Promise<void>
 {
 	const database = await Notion.GetVocabularyDatabase();
 
-	database.results.forEach(async (_object) =>
+	for (const _object of database.results)
 	{
 		const notionDatabaseObject = new NotionDatabaseObject(_object);
-		notionDatabaseObject.CreateCards();
-	});
+		await notionDatabaseObject.CreateCards();
+	};
 }
 
 createVocabularyCardsFromDatabase();
