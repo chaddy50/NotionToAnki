@@ -61,7 +61,7 @@ export default class NotionDatabaseObject
 
 	private async createSpanishCard(): Promise<void>
 	{
-		Anki.CreateNewVocabularyCard(
+		await Anki.CreateNewVocabularyCard(
 			this.getDeck(SPANISH_DECK),
 			this.english,
 			this.spanish
